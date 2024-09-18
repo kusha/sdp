@@ -1,0 +1,16 @@
+
+upstream backend {
+    # generic port range should be possible with https://openresty.org/en/
+   
+    server localhost:${FAILOVER_PORT_1};
+    server localhost:${FAILOVER_PORT_2};
+    server localhost:${FAILOVER_PORT_3};
+}
+
+server {
+    listen ${PORT};
+    location / {
+        proxy_pass http://backend;
+        proxy_next_upstream http_500;
+    }
+}

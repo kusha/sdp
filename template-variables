@@ -1,0 +1,12 @@
+map $host $port {
+  default "$PORT";
+}
+map $host $failover_port_1 {
+  default "$FAILOVER_PORT_1";
+}
+map $host $failover_port_2 {
+  default "$FAILOVER_PORT_2";
+}
+map $host $failover_port_3 {
+  default "$FAILOVER_PORT_3";
+}

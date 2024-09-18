@@ -1,0 +1,80 @@
+services:
+  ring_a_1:  # _ring_scale_unit suffix
+    image: sdp-app:a1
+    ports:
+      - "7911:${APP_PORT}"
+    healthcheck: &healthcheck
+      test: ["CMD", "curl", "-f", "http://localhost:${APP_PORT}/health"]
+      interval: 1s
+      timeout: 10s  # for curl
+      retries: 0
+      start_period: 5s  # for Flask
+  ring_a_2:
+    image: sdp-app:a2
+    ports:
+      - "7912:${APP_PORT}"
+    healthcheck: *healthcheck
+  ring_a_3:
+    image: sdp-app:a3
+    ports:
+      - "7913:${APP_PORT}"
+    healthcheck: *healthcheck
+  ring_b_1:
+    image: sdp-app:b1
+    ports:
+      - "7921:${APP_PORT}"
+    healthcheck: *healthcheck
+  ring_b_2:
+    image: sdp-app:b2
+    ports:
+      - "7922:${APP_PORT}"
+    healthcheck: *healthcheck
+  ring_b_3:
+    image: sdp-app:b3
+    ports:
+      - "7923:${APP_PORT}"
+    healthcheck: *healthcheck
+  ring_c_1:
+    image: sdp-app:c1
+    ports:
+      - "7931:${APP_PORT}"
+    healthcheck: *healthcheck
+  ring_c_2:
+    image: sdp-app:c2
+    ports:
+      - "7932:${APP_PORT}"
+    healthcheck: *healthcheck
+  ring_c_3:
+    image: sdp-app:c3
+    ports:
+      - "7933:${APP_PORT}"
+    healthcheck: *healthcheck
+  failover_a:
+    image: nginx-custom:latest
+    build: &nginx_build
+      context: ./nginx
+      dockerfile: Dockerfile
+    network_mode: host
+    environment:
+        PORT: "7910"
+        FAILOVER_PORT_1: "7911"
+        FAILOVER_PORT_2: "7912"
+        FAILOVER_PORT_3: "7913"
+  failover_b:
+    image: nginx-custom:latest
+    build: *nginx_build
+    network_mode: host
+    environment:
+        PORT: "7920"
+        FAILOVER_PORT_1: "7921"
+        FAILOVER_PORT_2: "7922"
+        FAILOVER_PORT_3: "7923"
+  failover_c:
+    image: nginx-custom:latest
+    build: *nginx_build
+    network_mode: host
+    environment:
+        PORT: "7930"
+        FAILOVER_PORT_1: "7931"
+        FAILOVER_PORT_2: "7932"
+        FAILOVER_PORT_3: "7933"

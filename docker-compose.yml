@@ -60,6 +60,10 @@ services:
         FAILOVER_PORT_1: "7911"
         FAILOVER_PORT_2: "7912"
         FAILOVER_PORT_3: "7913"
+    depends_on:
+      - ring_a_1
+      - ring_a_2
+      - ring_a_3
   failover_b:
     image: nginx-custom:latest
     build: *nginx_build
@@ -69,6 +73,10 @@ services:
         FAILOVER_PORT_1: "7921"
         FAILOVER_PORT_2: "7922"
         FAILOVER_PORT_3: "7923"
+    depends_on:
+      - ring_b_1
+      - ring_b_2
+      - ring_b_3
   failover_c:
     image: nginx-custom:latest
     build: *nginx_build
@@ -78,3 +86,7 @@ services:
         FAILOVER_PORT_1: "7931"
         FAILOVER_PORT_2: "7932"
         FAILOVER_PORT_3: "7933"
+    depends_on:
+      - ring_c_1
+      - ring_c_2
+      - ring_c_3

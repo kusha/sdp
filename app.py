@@ -12,7 +12,7 @@ def load_features():
                 failure_rate = int(value)
                 feature = {
                     'name': key,
-                    'enabled': True,
+                    'enabled': f"DISABLED_{key}" not in os.environ,
                     'failure_rate': failure_rate
                 }
                 features.append(feature)

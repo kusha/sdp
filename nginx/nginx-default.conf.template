@@ -2,9 +2,9 @@
 upstream backend {
     # generic port range should be possible with https://openresty.org/en/
    
-    server localhost:${FAILOVER_PORT_1};
-    server localhost:${FAILOVER_PORT_2};
-    server localhost:${FAILOVER_PORT_3};
+    server host.docker.internal:${FAILOVER_PORT_1} fail_timeout=5s max_fails=1;
+    server host.docker.internal:${FAILOVER_PORT_2} backup;
+    server host.docker.internal:${FAILOVER_PORT_3} backup;
 }
 
 server {

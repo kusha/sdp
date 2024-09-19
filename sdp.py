@@ -32,6 +32,7 @@ def exec(cmd):
     os.system(cmd)
 
 if __name__ == "__main__":
+    bake_time = int(input("Enter bake time (s): ") or "5")
 
     # ask about features
     print("Enter the features you want to enable:")
@@ -63,3 +64,5 @@ if __name__ == "__main__":
             if not probe_port(port):
                 print(f"Failed to deploy {service_name}")
                 exit(1)
+
+    print("Deployment successful")

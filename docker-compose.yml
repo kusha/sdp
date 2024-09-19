@@ -9,16 +9,22 @@ services:
       timeout: 10s  # for curl
       retries: 0
       start_period: 5s  # for Flask
+    # environment:
+    #     DISABLE_FEATURE_A: "true"
   ring_a_2:
     image: sdp-app:a2
     ports:
       - "7912:${APP_PORT}"
     healthcheck: *healthcheck
+    # environment:
+    #     DISABLE_FEATURE_A: "true"
   ring_a_3:
     image: sdp-app:a3
     ports:
       - "7913:${APP_PORT}"
     healthcheck: *healthcheck
+    # environment:
+    #     DISABLE_FEATURE_A: "true"
   ring_b_1:
     image: sdp-app:b1
     ports:
@@ -54,7 +60,8 @@ services:
     build: &nginx_build
       context: ./nginx
       dockerfile: Dockerfile
-    network_mode: host
+    ports:
+      - "7910:7910"
     environment:
         PORT: "7910"
         FAILOVER_PORT_1: "7911"
@@ -67,7 +74,8 @@ services:
   failover_b:
     image: nginx-custom:latest
     build: *nginx_build
-    network_mode: host
+    ports:
+      - "7920:7920"
     environment:
         PORT: "7920"
         FAILOVER_PORT_1: "7921"
@@ -80,7 +88,8 @@ services:
   failover_c:
     image: nginx-custom:latest
     build: *nginx_build
-    network_mode: host
+    ports:
+      - "7930:7930"
     environment:
         PORT: "7930"
         FAILOVER_PORT_1: "7931"

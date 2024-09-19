@@ -34,5 +34,6 @@ track_availability_thread = threading.Thread(target=track_availability)
 track_availability_thread.daemon = True
 track_availability_thread.start()
 
+print("Rings: a,b,c. Report: availability (1min), all queries, recent queries (1min).")
 while True:
     time.sleep(1)
